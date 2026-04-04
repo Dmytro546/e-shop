@@ -14,7 +14,7 @@ class ProductController extends Controller
 
     public function index()
     {
-        return $this->products;
+        return view('products', ['products' => $this->products]);
     }
 
     public function show($id)
