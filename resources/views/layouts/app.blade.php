@@ -11,12 +11,43 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
         <div class="container">
             <a class="navbar-brand" href="/">E-Shop</a>
-            <div class="collapse navbar-collapse">
+            <div class="collapse navbar-collapse" id="navbarNav">
+                
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link" href="/">Головна</a></li>
                     <li class="nav-item"><a class="nav-link" href="/products">Каталог товарів</a></li>
                     <li class="nav-item"><a class="nav-link" href="/about">Про проєкт</a></li>
+                    
+                    @auth
+                        <li class="nav-item"><a class="nav-link text-warning" href="{{ route('admin.products.index') }}">Адмін-панель</a></li>
+                    @endauth
                 </ul>
+
+                <ul class="navbar-nav ms-auto">
+                    @guest
+                        <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Увійти</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">Реєстрація</a></li>
+                    @endguest
+
+                    @auth
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                                Привіт, {{ Auth::user()->name }}!
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Профіль</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <button class="dropdown-item text-danger" type="submit">Вийти</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    @endauth
+                </ul>
+
             </div>
         </div>
     </nav>
