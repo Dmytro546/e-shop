@@ -8,6 +8,31 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    public function create()
+    {
+        return view('admin.products.create');
+    }
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0.01',
+            'category' => 'required|string|max:100',
+            'description' => 'nullable|string'
+        ], [
+            'name.required' => 'Назва товару є обов\'язковою.',
+            'price.required' => 'Будь ласка, вкажіть ціну.',
+            'price.numeric' => 'Ціна має бути числом.',
+            'price.min' => 'Ціна має бути більшою за нуль.',
+            'category.required' => 'Категорія є обов\'язковою.'
+        ]);
+
+        Product::create($validated);
+
+        return redirect()->route('admin.products.index')
+                        ->with('success', 'Новий товар успішно додано!');
+    }
+
     public function index()
     {
         $products = Product::all();
@@ -25,22 +50,6 @@ class ProductController extends Controller
 
         return redirect()->route('admin.products.index')
                          ->with('success', 'Товар успішно видалено!');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**

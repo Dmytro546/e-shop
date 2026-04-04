@@ -4,8 +4,11 @@
 
 @section('content')
 <div class="container mt-4">
-    <h2>Управління товарами</h2>
-
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Управління товарами</h2>
+        <a href="{{ route('admin.products.create') }}" class="btn btn-primary">Додати новий товар</a>
+    </div>
+    
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
